@@ -4,11 +4,7 @@ import { Copy } from 'lucide-react';
 
 type FormType = 'abonnement' | 'essai' | null;
 
-type AjouterProps = {
-  onSuccess?: (page: string) => void;
-};
-
-export default function Ajouter({ onSuccess }: AjouterProps) {
+export default function Ajouter() {
   const [formType, setFormType] = useState<FormType>(null);
 
   return (
@@ -35,29 +31,18 @@ export default function Ajouter({ onSuccess }: AjouterProps) {
         )}
 
         {formType === 'abonnement' && (
-          <SubscriptionForm
-            onBack={() => setFormType(null)}
-            onSuccess={onSuccess}
-          />
+          <SubscriptionForm onBack={() => setFormType(null)} />
         )}
 
         {formType === 'essai' && (
-          <FreeTrialForm
-            onBack={() => setFormType(null)}
-            onSuccess={onSuccess}
-          />
+          <FreeTrialForm onBack={() => setFormType(null)} />
         )}
       </div>
     </div>
   );
 }
 
-type SubscriptionFormProps = {
-  onBack: () => void;
-  onSuccess?: (page: string) => void;
-};
-
-function SubscriptionForm({ onBack, onSuccess }: SubscriptionFormProps) {
+function SubscriptionForm({ onBack }: { onBack: () => void }) {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -92,27 +77,19 @@ function SubscriptionForm({ onBack, onSuccess }: SubscriptionFormProps) {
         setLoading(false);
         return;
       }
-
-      setLoading(false);
-      setFormData({
-        name: '',
-        price: '',
-        frequency: 'mensuel',
-        billing_date: '',
-        email: '',
-        link: '',
-        notes: '',
-      });
-
-      if (onSuccess) {
-        onSuccess('abonnements');
-      } else {
-        onBack();
-      }
-    } else {
-      alert('La connexion à la base de données n\'est pas configurée');
-      setLoading(false);
     }
+
+    setLoading(false);
+    setFormData({
+      name: '',
+      price: '',
+      frequency: 'mensuel',
+      billing_date: '',
+      email: '',
+      link: '',
+      notes: '',
+    });
+    onBack();
   }
 
   return (
@@ -237,12 +214,7 @@ function SubscriptionForm({ onBack, onSuccess }: SubscriptionFormProps) {
   );
 }
 
-type FreeTrialFormProps = {
-  onBack: () => void;
-  onSuccess?: (page: string) => void;
-};
-
-function FreeTrialForm({ onBack, onSuccess }: FreeTrialFormProps) {
+function FreeTrialForm({ onBack }: { onBack: () => void }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -306,30 +278,22 @@ function FreeTrialForm({ onBack, onSuccess }: FreeTrialFormProps) {
         setLoading(false);
         return;
       }
-
-      setLoading(false);
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        identifier: '',
-        link: '',
-        start_date: new Date().toISOString().split('T')[0],
-        end_date: '',
-        cancel_date: '',
-        card_used: '',
-        notes: '',
-      });
-
-      if (onSuccess) {
-        onSuccess('essais');
-      } else {
-        onBack();
-      }
-    } else {
-      alert('La connexion à la base de données n\'est pas configurée');
-      setLoading(false);
     }
+
+    setLoading(false);
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      identifier: '',
+      link: '',
+      start_date: new Date().toISOString().split('T')[0],
+      end_date: '',
+      cancel_date: '',
+      card_used: '',
+      notes: '',
+    });
+    onBack();
   }
 
   return (
