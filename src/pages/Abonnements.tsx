@@ -17,6 +17,10 @@ export default function Abonnements() {
 
   async function loadSubscriptions() {
     setLoading(true);
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
     const { data } = await supabase
       .from('subscriptions')
       .select('*')
@@ -27,6 +31,7 @@ export default function Abonnements() {
   }
 
   async function deleteSubscription(id: string) {
+    if (!supabase) return;
     if (confirm('Supprimer cet abonnement ?')) {
       await supabase.from('subscriptions').delete().eq('id', id);
       loadSubscriptions();
@@ -34,6 +39,7 @@ export default function Abonnements() {
   }
 
   async function toggleStatus(id: string, currentStatus: string) {
+    if (!supabase) return;
     const newStatus = currentStatus === 'actif' ? 'annulé' : 'actif';
     await supabase
       .from('subscriptions')
@@ -213,6 +219,8 @@ function SubscriptionEditModal({ subscription, onClose, onSave }: ModalProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!supabase) return;
 
     await supabase
       .from('subscriptions')

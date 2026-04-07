@@ -18,6 +18,10 @@ export default function EssaisGratuits() {
 
   async function loadTrials() {
     setLoading(true);
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
     const { data } = await supabase
       .from('free_trials')
       .select('*')
@@ -28,6 +32,7 @@ export default function EssaisGratuits() {
   }
 
   async function deleteTrial(id: string) {
+    if (!supabase) return;
     if (confirm('Supprimer cet essai gratuit ?')) {
       await supabase.from('free_trials').delete().eq('id', id);
       loadTrials();
@@ -35,6 +40,7 @@ export default function EssaisGratuits() {
   }
 
   async function toggleStatus(id: string, currentStatus: string) {
+    if (!supabase) return;
     const newStatus = currentStatus === 'actif' ? 'annulé' : 'actif';
     await supabase
       .from('free_trials')
@@ -289,6 +295,8 @@ function FreeTrialEditModal({ trial, onClose, onSave }: ModalProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!supabase) return;
 
     await supabase
       .from('free_trials')

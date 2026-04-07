@@ -61,16 +61,18 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
     e.preventDefault();
     setLoading(true);
 
-    await supabase.from('subscriptions').insert({
-      name: formData.name,
-      price: parseFloat(formData.price),
-      frequency: formData.frequency,
-      billing_date: parseInt(formData.billing_date),
-      email: formData.email || null,
-      link: formData.link || null,
-      notes: formData.notes || null,
-      status: 'actif',
-    });
+    if (supabase) {
+      await supabase.from('subscriptions').insert({
+        name: formData.name,
+        price: parseFloat(formData.price),
+        frequency: formData.frequency,
+        billing_date: parseInt(formData.billing_date),
+        email: formData.email || null,
+        link: formData.link || null,
+        notes: formData.notes || null,
+        status: 'actif',
+      });
+    }
 
     setLoading(false);
     onBack();
@@ -241,19 +243,21 @@ function FreeTrialForm({ onBack }: { onBack: () => void }) {
     e.preventDefault();
     setLoading(true);
 
-    await supabase.from('free_trials').insert({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password || null,
-      identifier: formData.identifier || null,
-      link: formData.link || null,
-      start_date: formData.start_date,
-      end_date: formData.end_date,
-      cancel_date: formData.cancel_date || null,
-      card_used: formData.card_used || null,
-      notes: formData.notes || null,
-      status: 'actif',
-    });
+    if (supabase) {
+      await supabase.from('free_trials').insert({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password || null,
+        identifier: formData.identifier || null,
+        link: formData.link || null,
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        cancel_date: formData.cancel_date || null,
+        card_used: formData.card_used || null,
+        notes: formData.notes || null,
+        status: 'actif',
+      });
+    }
 
     setLoading(false);
     onBack();

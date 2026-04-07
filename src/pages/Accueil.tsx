@@ -18,6 +18,11 @@ export default function Accueil() {
   async function loadData() {
     setLoading(true);
 
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     const today = new Date();
     const fiveDaysFromNow = new Date();
     fiveDaysFromNow.setDate(today.getDate() + 5);
@@ -41,6 +46,8 @@ export default function Accueil() {
   }
 
   async function markTrialAsCanceled(id: string) {
+    if (!supabase) return;
+
     await supabase
       .from('free_trials')
       .update({ status: 'annulé' })
