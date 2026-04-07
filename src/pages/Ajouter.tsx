@@ -8,26 +8,24 @@ export default function Ajouter() {
   const [formType, setFormType] = useState<FormType>(null);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <div className="max-w-2xl mx-auto p-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Ajouter</h1>
-
+    <div className="min-h-screen pb-28">
+      <div className="max-w-2xl mx-auto p-4 space-y-4">
         {!formType && (
           <div className="space-y-3">
             <button
               onClick={() => setFormType('abonnement')}
-              className="w-full bg-white border-2 border-gray-200 rounded-lg p-6 text-left hover:border-blue-500 hover:bg-blue-50 transition-colors"
+              className="w-full card-float-interactive p-6 text-left"
             >
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Abonnement</h2>
-              <p className="text-gray-600">Ajouter un abonnement payant (mensuel ou annuel)</p>
+              <h2 className="text-xl font-bold text-white mb-2">Abonnement</h2>
+              <p className="text-gray-400">Ajouter un abonnement payant (mensuel ou annuel)</p>
             </button>
 
             <button
               onClick={() => setFormType('essai')}
-              className="w-full bg-white border-2 border-gray-200 rounded-lg p-6 text-left hover:border-blue-500 hover:bg-blue-50 transition-colors"
+              className="w-full card-float-interactive p-6 text-left"
             >
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Essai gratuit</h2>
-              <p className="text-gray-600">Ajouter un essai gratuit à suivre</p>
+              <h2 className="text-xl font-bold text-white mb-2">Essai gratuit</h2>
+              <p className="text-gray-400">Ajouter un essai gratuit à suivre</p>
             </button>
           </div>
         )}
@@ -98,24 +96,24 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
     <div>
       <button
         onClick={onBack}
-        className="text-blue-600 hover:text-blue-800 mb-4 font-medium"
+        className="text-blue-400 hover:text-blue-300 mb-4 font-medium transition-colors px-1"
       >
         ← Retour
       </button>
 
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Nouvel abonnement</h2>
+      <div className="card-float p-6">
+        <h2 className="text-xl font-bold text-white mb-6">Nouvel abonnement</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nom <span className="text-red-600">*</span>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Nom <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="Netflix, Spotify..."
               required
             />
@@ -123,28 +121,28 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Prix (€) <span className="text-red-600">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Prix (€) <span className="text-red-400">*</span>
               </label>
               <input
                 type="number"
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="9.99"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Fréquence <span className="text-red-600">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Fréquence <span className="text-red-400">*</span>
               </label>
               <select
                 value={formData.frequency}
                 onChange={(e) => setFormData({ ...formData, frequency: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 required
               >
                 <option value="mensuel">Mensuel</option>
@@ -154,8 +152,8 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Jour du prélèvement <span className="text-red-600">*</span>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Jour du prélèvement <span className="text-red-400">*</span>
             </label>
             <input
               type="number"
@@ -163,7 +161,7 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
               max="31"
               value={formData.billing_date}
               onChange={(e) => setFormData({ ...formData, billing_date: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="15"
               required
             />
@@ -171,33 +169,33 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="mon.email@exemple.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Lien</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Lien</label>
             <input
               type="url"
               value={formData.link}
               onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="https://..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Notes</label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors resize-none"
               rows={3}
               placeholder="Notes personnelles..."
             />
@@ -206,7 +204,7 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400"
+            className="w-full bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 disabled:bg-slate-700 disabled:text-gray-400 transition-all duration-200 active:scale-95"
           >
             {loading ? 'Ajout en cours...' : 'Ajouter l\'abonnement'}
           </button>
@@ -302,68 +300,68 @@ function FreeTrialForm({ onBack }: { onBack: () => void }) {
     <div>
       <button
         onClick={onBack}
-        className="text-blue-600 hover:text-blue-800 mb-4 font-medium"
+        className="text-blue-400 hover:text-blue-300 mb-4 font-medium transition-colors px-1"
       >
         ← Retour
       </button>
 
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Nouvel essai gratuit</h2>
+      <div className="card-float p-6">
+        <h2 className="text-xl font-bold text-white mb-6">Nouvel essai gratuit</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nom <span className="text-red-600">*</span>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Nom <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="Nom du service"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email <span className="text-red-600">*</span>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Email <span className="text-red-400">*</span>
             </label>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="mon.email@exemple.com"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Identifiant</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Identifiant</label>
             <input
               type="text"
               value={formData.identifier}
               onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="Nom d'utilisateur"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Mot de passe</label>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2"
+                className="flex-1 bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="Mot de passe"
               />
               <button
                 type="button"
                 onClick={generatePassword}
-                className="bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 flex items-center gap-2"
+                className="bg-slate-700 text-gray-200 px-4 py-3 rounded-xl font-medium hover:bg-slate-600 transition-all duration-200 flex items-center gap-2 active:scale-95"
               >
                 <Copy className="w-4 h-4" />
                 Générer
@@ -373,74 +371,74 @@ function FreeTrialForm({ onBack }: { onBack: () => void }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Lien</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Lien</label>
             <input
               type="url"
               value={formData.link}
               onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="https://..."
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Date début <span className="text-red-600">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Date début <span className="text-red-400">*</span>
               </label>
               <input
                 type="date"
                 value={formData.start_date}
                 onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Date fin <span className="text-red-600">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Date fin <span className="text-red-400">*</span>
               </label>
               <input
                 type="date"
                 value={formData.end_date}
                 onChange={(e) => handleEndDateChange(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Date d'annulation
             </label>
             <input
               type="date"
               value={formData.cancel_date}
               onChange={(e) => setFormData({ ...formData, cancel_date: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
             <p className="text-xs text-gray-500 mt-1">Par défaut : 1 jour avant la fin</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Carte utilisée</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Carte utilisée</label>
             <input
               type="text"
               value={formData.card_used}
               onChange={(e) => setFormData({ ...formData, card_used: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="Visa ****1234"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Notes</label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors resize-none"
               rows={3}
               placeholder="Notes personnelles..."
             />
@@ -449,7 +447,7 @@ function FreeTrialForm({ onBack }: { onBack: () => void }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400"
+            className="w-full bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 disabled:bg-slate-700 disabled:text-gray-400 transition-all duration-200 active:scale-95"
           >
             {loading ? 'Ajout en cours...' : 'Ajouter l\'essai gratuit'}
           </button>

@@ -79,19 +79,17 @@ export default function EssaisGratuits() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen pb-20">
-        <div className="text-gray-500">Chargement...</div>
+        <div className="text-gray-400">Chargement...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <div className="max-w-2xl mx-auto p-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Essais gratuits</h1>
-
+    <div className="min-h-screen pb-28">
+      <div className="max-w-2xl mx-auto p-4 space-y-4">
         {activeTrials.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-sm font-semibold text-gray-600 mb-3 uppercase">
+          <div>
+            <h2 className="text-sm font-medium text-gray-400 mb-3 px-1">
               Actifs ({activeTrials.length})
             </h2>
 
@@ -103,16 +101,16 @@ export default function EssaisGratuits() {
                 return (
                   <div
                     key={trial.id}
-                    className={`rounded-lg p-4 shadow-sm border-2 ${
+                    className={`card-float p-5 ${
                       isUrgent
-                        ? 'bg-red-50 border-red-300'
-                        : 'bg-white border-gray-200'
+                        ? 'border-red-500/50 bg-red-950/30'
+                        : ''
                     }`}
                   >
-                    <div className="flex justify-between items-start mb-3">
+                    <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
-                        <h3 className="font-bold text-gray-900 text-lg">{trial.name}</h3>
-                        <p className="text-sm text-gray-600">{trial.email}</p>
+                        <h3 className="font-semibold text-white text-lg mb-1">{trial.name}</h3>
+                        <p className="text-xs text-gray-400">{trial.email}</p>
                       </div>
                       <div className="flex gap-2">
                         {trial.link && (
@@ -120,9 +118,9 @@ export default function EssaisGratuits() {
                             href={trial.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800"
+                            className="text-blue-400 hover:text-blue-300 transition-colors"
                           >
-                            <ExternalLink className="w-5 h-5" />
+                            <ExternalLink className="w-4 h-4" />
                           </a>
                         )}
                         <button
@@ -130,40 +128,43 @@ export default function EssaisGratuits() {
                             setSelectedTrial(trial);
                             setShowModal(true);
                           }}
-                          className="text-gray-600 hover:text-gray-800"
+                          className="text-gray-400 hover:text-gray-200 transition-colors"
                         >
-                          <Edit2 className="w-5 h-5" />
+                          <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => deleteTrial(trial.id)}
-                          className="text-red-600 hover:text-red-800"
+                          className="text-red-400 hover:text-red-300 transition-colors"
                         >
-                          <Trash2 className="w-5 h-5" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
 
-                    <div className="space-y-2 mb-3">
-                      <div className={`text-sm font-medium ${isUrgent ? 'text-red-700' : 'text-gray-700'}`}>
-                        <span>Se termine dans {daysLeft} jour{daysLeft > 1 ? 's' : ''}</span>
-                        <span className="ml-2 text-gray-600">
-                          ({new Date(trial.end_date).toLocaleDateString('fr-FR')})
-                        </span>
-                      </div>
-
+                    <div className="mb-4">
+                      <p className={`text-4xl font-bold mb-2 ${isUrgent ? 'text-red-300' : 'text-blue-400'}`}>
+                        {daysLeft} jour{daysLeft > 1 ? 's' : ''}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Se termine le {new Date(trial.end_date).toLocaleDateString('fr-FR')}
+                      </p>
                       {trial.cancel_date && (
-                        <div className="text-sm text-gray-600">
-                          À annuler avant : {new Date(trial.cancel_date).toLocaleDateString('fr-FR')}
-                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Annuler avant le {new Date(trial.cancel_date).toLocaleDateString('fr-FR')}
+                        </p>
                       )}
+                    </div>
 
+                    <div className="space-y-2 mb-4">
                       {trial.identifier && (
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-600">Identifiant :</span>
-                          <span className="text-sm font-mono text-gray-900">{trial.identifier}</span>
+                        <div className="card-float bg-slate-700/30 border-slate-600/50 p-3 flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-gray-400 mb-1">Identifiant</p>
+                            <p className="text-sm font-mono text-white truncate">{trial.identifier}</p>
+                          </div>
                           <button
                             onClick={() => copyToClipboard(trial.identifier!)}
-                            className="text-gray-600 hover:text-gray-800"
+                            className="ml-3 text-gray-400 hover:text-gray-200 transition-colors"
                           >
                             <Copy className="w-4 h-4" />
                           </button>
@@ -171,46 +172,50 @@ export default function EssaisGratuits() {
                       )}
 
                       {trial.password && (
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-600">Mot de passe :</span>
-                          <span className="text-sm font-mono text-gray-900">
-                            {visiblePasswords.has(trial.id) ? trial.password : '••••••••'}
-                          </span>
-                          <button
-                            onClick={() => togglePasswordVisibility(trial.id)}
-                            className="text-gray-600 hover:text-gray-800"
-                          >
-                            {visiblePasswords.has(trial.id) ? (
-                              <EyeOff className="w-4 h-4" />
-                            ) : (
-                              <Eye className="w-4 h-4" />
-                            )}
-                          </button>
-                          <button
-                            onClick={() => copyToClipboard(trial.password!)}
-                            className="text-gray-600 hover:text-gray-800"
-                          >
-                            <Copy className="w-4 h-4" />
-                          </button>
+                        <div className="card-float bg-slate-700/30 border-slate-600/50 p-3 flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-gray-400 mb-1">Mot de passe</p>
+                            <p className="text-sm font-mono text-white">
+                              {visiblePasswords.has(trial.id) ? trial.password : '••••••••'}
+                            </p>
+                          </div>
+                          <div className="flex gap-2 ml-3">
+                            <button
+                              onClick={() => togglePasswordVisibility(trial.id)}
+                              className="text-gray-400 hover:text-gray-200 transition-colors"
+                            >
+                              {visiblePasswords.has(trial.id) ? (
+                                <EyeOff className="w-4 h-4" />
+                              ) : (
+                                <Eye className="w-4 h-4" />
+                              )}
+                            </button>
+                            <button
+                              onClick={() => copyToClipboard(trial.password!)}
+                              className="text-gray-400 hover:text-gray-200 transition-colors"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
                       )}
 
                       {trial.card_used && (
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-gray-400 px-1">
                           Carte : {trial.card_used}
                         </div>
                       )}
                     </div>
 
                     {trial.notes && (
-                      <div className="mb-3 p-2 bg-white rounded text-sm text-gray-700 border border-gray-200">
-                        {trial.notes}
+                      <div className="mb-4 p-3 card-float bg-slate-700/30 border-slate-600/50">
+                        <p className="text-sm text-gray-300">{trial.notes}</p>
                       </div>
                     )}
 
                     <button
                       onClick={() => toggleStatus(trial.id, trial.status)}
-                      className="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700"
+                      className="w-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 py-3 rounded-2xl font-medium transition-all duration-200 active:scale-95 border border-emerald-500/30"
                     >
                       Marquer comme annulé
                     </button>
@@ -223,32 +228,32 @@ export default function EssaisGratuits() {
 
         {canceledTrials.length > 0 && (
           <div>
-            <h2 className="text-sm font-semibold text-gray-600 mb-3 uppercase">
+            <h2 className="text-sm font-medium text-gray-400 mb-3 px-1">
               Annulés ({canceledTrials.length})
             </h2>
 
             <div className="space-y-3">
               {canceledTrials.map((trial) => (
-                <div key={trial.id} className="bg-gray-100 rounded-lg p-4 border border-gray-300 opacity-75">
-                  <div className="flex justify-between items-start mb-2">
+                <div key={trial.id} className="card-float bg-slate-800/20 border-slate-700/30 p-4 opacity-60">
+                  <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
-                      <h3 className="font-bold text-gray-700">{trial.name}</h3>
-                      <p className="text-sm text-gray-600">{trial.email}</p>
-                      <p className="text-xs text-gray-500">
+                      <h3 className="font-medium text-gray-300">{trial.name}</h3>
+                      <p className="text-sm text-gray-400">{trial.email}</p>
+                      <p className="text-xs text-gray-500 mt-1">
                         Était actif jusqu'au {new Date(trial.end_date).toLocaleDateString('fr-FR')}
                       </p>
                     </div>
                     <button
                       onClick={() => deleteTrial(trial.id)}
-                      className="text-red-600 hover:text-red-800"
+                      className="text-red-400 hover:text-red-300 transition-colors"
                     >
-                      <Trash2 className="w-5 h-5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
 
                   <button
                     onClick={() => toggleStatus(trial.id, trial.status)}
-                    className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                    className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors"
                   >
                     Réactiver
                   </button>
@@ -259,9 +264,9 @@ export default function EssaisGratuits() {
         )}
 
         {trials.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">Aucun essai gratuit</p>
-            <p className="text-sm text-gray-400 mt-2">Utilisez l'onglet Ajouter pour en créer un</p>
+          <div className="text-center py-16">
+            <p className="text-gray-400">Aucun essai gratuit</p>
+            <p className="text-xs text-gray-500 mt-2">Utilisez le bouton Ajouter pour commencer</p>
           </div>
         )}
       </div>
@@ -307,113 +312,113 @@ function FreeTrialEditModal({ trial, onClose, onSave }: ModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Modifier l'essai gratuit</h2>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="card-float bg-slate-800/95 p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl font-bold text-white mb-6">Modifier l'essai gratuit</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Nom</label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Identifiant</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Identifiant</label>
             <input
               type="text"
               value={formData.identifier || ''}
               onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Mot de passe</label>
             <input
               type="text"
               value={formData.password || ''}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Lien</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Lien</label>
             <input
               type="url"
               value={formData.link || ''}
               onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Date début</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Date début</label>
               <input
                 type="date"
                 value={formData.start_date}
                 onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Date fin</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Date fin</label>
               <input
                 type="date"
                 value={formData.end_date}
                 onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date d'annulation</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Date d'annulation</label>
             <input
               type="date"
               value={formData.cancel_date || ''}
               onChange={(e) => setFormData({ ...formData, cancel_date: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Carte utilisée</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Carte utilisée</label>
             <input
               type="text"
               value={formData.card_used || ''}
               onChange={(e) => setFormData({ ...formData, card_used: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Notes</label>
             <textarea
               value={formData.notes || ''}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              className="w-full bg-slate-700/50 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               rows={3}
             />
           </div>
@@ -422,13 +427,13 @@ function FreeTrialEditModal({ trial, onClose, onSave }: ModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg font-medium hover:bg-gray-300"
+              className="flex-1 bg-slate-700 text-gray-200 py-3 rounded-xl font-medium hover:bg-slate-600 transition-all duration-200 active:scale-95"
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700"
+              className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-all duration-200 active:scale-95"
             >
               Sauvegarder
             </button>
