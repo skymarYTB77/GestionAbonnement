@@ -62,7 +62,7 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
     setLoading(true);
 
     if (supabase) {
-      await supabase.from('subscriptions').insert({
+      const { error } = await supabase.from('subscriptions').insert({
         name: formData.name,
         price: parseFloat(formData.price),
         frequency: formData.frequency,
@@ -72,9 +72,25 @@ function SubscriptionForm({ onBack }: { onBack: () => void }) {
         notes: formData.notes || null,
         status: 'actif',
       });
+
+      if (error) {
+        console.error('Erreur lors de l\'ajout:', error);
+        alert('Erreur lors de l\'ajout de l\'abonnement: ' + error.message);
+        setLoading(false);
+        return;
+      }
     }
 
     setLoading(false);
+    setFormData({
+      name: '',
+      price: '',
+      frequency: 'mensuel',
+      billing_date: '',
+      email: '',
+      link: '',
+      notes: '',
+    });
     onBack();
   }
 
@@ -244,7 +260,7 @@ function FreeTrialForm({ onBack }: { onBack: () => void }) {
     setLoading(true);
 
     if (supabase) {
-      await supabase.from('free_trials').insert({
+      const { error } = await supabase.from('free_trials').insert({
         name: formData.name,
         email: formData.email,
         password: formData.password || null,
@@ -257,9 +273,28 @@ function FreeTrialForm({ onBack }: { onBack: () => void }) {
         notes: formData.notes || null,
         status: 'actif',
       });
+
+      if (error) {
+        console.error('Erreur lors de l\'ajout:', error);
+        alert('Erreur lors de l\'ajout de l\'essai gratuit: ' + error.message);
+        setLoading(false);
+        return;
+      }
     }
 
     setLoading(false);
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      identifier: '',
+      link: '',
+      start_date: new Date().toISOString().split('T')[0],
+      end_date: '',
+      cancel_date: '',
+      card_used: '',
+      notes: '',
+    });
     onBack();
   }
 

@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 min-h-screen text-white;
+  }
+}
+
+@layer components {
+  .card-float {
+    @apply rounded-3xl bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 shadow-xl;
+  }
+
+  .card-float-interactive {
+    @apply card-float transition-all duration-200 hover:shadow-2xl hover:bg-slate-800/50;
+  }
+
+  .pill-btn {
+    @apply px-6 py-3 rounded-full bg-blue-600 text-white font-medium transition-all duration-200 hover:bg-blue-700 active:scale-95;
+  }
+
+  .action-btn {
+    @apply flex flex-col items-center gap-2 transition-all duration-200 hover:scale-110 active:scale-95;
+  }
+
+  .nav-item {
+    @apply flex flex-col items-center gap-1 text-xs text-gray-400 transition-all duration-200;
+  }
+
+  .nav-item.active {
+    @apply text-blue-400;
+  }
+
+  .list-item {
+    @apply flex items-center gap-3 p-4 rounded-2xl card-float-interactive;
+  }
+}

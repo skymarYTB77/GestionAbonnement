@@ -14,8 +14,8 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
-      <div className="grid grid-cols-4">
+    <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950 via-slate-900 border-t border-slate-700/50 z-50 backdrop-blur-xl">
+      <div className="grid grid-cols-4 gap-1 p-3 max-w-2xl mx-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = currentPage === tab.id;
@@ -24,12 +24,20 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
             <button
               key={tab.id}
               onClick={() => onNavigate(tab.id)}
-              className={`flex flex-col items-center py-3 px-2 ${
-                isActive ? 'text-blue-600' : 'text-gray-600'
-              }`}
+              className={`nav-item py-2 ${isActive ? 'active' : ''}`}
             >
-              <Icon className="w-6 h-6 mb-1" />
-              <span className="text-xs font-medium">{tab.label}</span>
+              <div className={`p-3 rounded-2xl transition-all duration-200 ${
+                isActive
+                  ? 'bg-blue-600/20 text-blue-400'
+                  : 'bg-slate-700/20 text-gray-400 hover:text-gray-300'
+              }`}>
+                <Icon className="w-5 h-5" />
+              </div>
+              <span className={`text-xs font-medium transition-colors ${
+                isActive ? 'text-blue-400' : 'text-gray-400'
+              }`}>
+                {tab.label}
+              </span>
             </button>
           );
         })}
